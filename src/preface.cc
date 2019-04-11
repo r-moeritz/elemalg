@@ -1,5 +1,6 @@
 #include "preface.hh"
 #include <algorithm>
+#include <queue>
 
 int elemalg::minfree(std::vector<int>& xs) {
   int l=0, i=0;
@@ -29,4 +30,35 @@ int elemalg::minfree(std::vector<int>& xs) {
   }
 
   return l;
+}
+
+elemalg::bigint elemalg::number(int n) {
+  if (n==1) return 1;
+
+  std::queue<bigint> q2, q3, q5;
+  q2.push(2);
+  q3.push(3);
+  q5.push(5);
+
+  bigint x;
+  while (--n > 1) {
+    x = std::min(std::min(q2.front(), q3.front()), q5.front());
+    if (x == q2.front()) {
+      q2.pop();
+      q2.push(x*2);
+      q3.push(x*3);
+      q5.push(x*5);
+    }
+    else if (x == q3.front()) {
+      q3.pop();
+      q3.push(x*3);
+      q5.push(x*5);
+    }
+    else {
+      q5.pop();
+      q5.push(x*5);
+    }
+  }
+
+  return x;
 }
